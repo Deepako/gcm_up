@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -45,6 +46,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class GcmDemoFragment extends DemoBaseFragment implements
       View.OnClickListener {
 
+   public static final String[] ls = {"Hello", "world", "CSE", "110", "software", "engineering"};
    private static final int RC_RES_REQUEST = 100;
    private static final int RC_SELECT_ACCOUNT = 200;
    private Button mBtnRegister;
@@ -161,7 +163,7 @@ public class GcmDemoFragment extends DemoBaseFragment implements
             break;
          }
       } else if (view.getId() == R.id.btn_send_message) {
-         sendMessage();
+            sendMessage();
       } else if (view.getId() == R.id.btn_select_account) {
          startAccountSelector();
       }

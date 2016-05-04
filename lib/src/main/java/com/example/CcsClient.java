@@ -61,6 +61,8 @@ import sun.rmi.runtime.Log;
  */
 public class CcsClient {
 
+    public static final String[] ls = {"Hello", "world", "CSE", "110", "software", "engineering"};
+
     public static final Logger logger = Logger.getLogger(CcsClient.class.getName());
 
     public static final String GCM_SERVER = "gcm.googleapis.com";
@@ -75,7 +77,7 @@ public class CcsClient {
 
     /// new: some additional instance and class members
     private static CcsClient sInstance = null;
-    private String mApiKey = "AIzaSyC_oi5v-QwyHirz_xbDzwcdcAROWrZ-xwc";
+    private String mApiKey = "AIzaSyDDKwl1ex6jC7JUkkTH94QqtBWJx8JCv0k";
     private String mProjectId = null;
     private boolean mDebuggable = false;
 
@@ -152,7 +154,7 @@ public class CcsClient {
     
     private CcsClient(String projectId, String apiKey, boolean debuggable) {
         this();
-        mApiKey = "AIzaSyC_oi5v-QwyHirz_xbDzwcdcAROWrZ-xwc";
+        mApiKey = "AIzaSyDDKwl1ex6jC7JUkkTH94QqtBWJx8JCv0k";
         mProjectId = projectId;
         mDebuggable = debuggable;
     }
@@ -436,11 +438,15 @@ public class CcsClient {
             try {
                 handleIncomingDataMessage(msg);
                 // Send ACK to CCS
-                String apiKey = "AIzaSyC_oi5v-QwyHirz_xbDzwcdcAROWrZ-xwc";
-                //Content content = createContent(msg);
-                //Post2Gcm.post(apiKey, content);
-                String ack = createJsonAck(msg.getFrom(), msg.getMessageId());
-                send(ack);
+                String apiKey = "AIzaSyDDKwl1ex6jC7JUkkTH94QqtBWJx8JCv0k";
+
+                for (int i = 0; i < 6; i++) {
+                    Content content = createContent(msg, i);
+                    Post2Gcm.post(apiKey, content);
+                    String ack = createJsonAck(msg.getFrom(), msg.getMessageId());
+                    send(ack);
+                    Thread.sleep(10000);
+                }
             }
             catch (Exception e) {
                 // Send NACK to CCS
@@ -460,10 +466,10 @@ public class CcsClient {
     }
 
     public static void main(String[] args) {
-        final String projectId = "813916479990";
+        final String projectId = "409557003948";
         final String password = "";
         //final String toRegId = "APA91bGtjDTQ3SAb69VfzW6FaBy6Wq-5KqX9T1qu7LX-DKHu8FNpqzgaoZ8oR4OQ8fRmues4q3rW7FgyrSB19l4RiTiIPyHNHjGXy3VpbbxlmgVZEmrTeO7uKDg0NRNHvPNt9VK9K9Ol";
-        final String toRegId ="APA91bGY4dIfSQXSKtJWMURy2QpJl9yyivYezFDD03kURk0x8EaVj31zmxALgjmg0bVh9eoGCwc5BWNXQh0CFZ9inFk1BJR2WBPLT8MT9ZvXCgX7wRchLlC0GgfxclqIux3vOLHNDiRJ";
+        final String toRegId ="APA91bFO7X7N4Eaa0FEoaJ44JG1RNUu4JK61JoXxLjh07IjUAc7CF9VFYlYQtNCiI80wop6q1iKoJcYcpH8-oXojf3QmfLVuqrTtFxZ2WB6oRr5fsN-OtXvdlqren94CgieMz98w9efz47g0RkwNgcqQko4-E6ndaw";
         //final String toRegId = "APA91bGNKqkUQsqv3-Yjh2f84U8Z9v4z6hQ1XUy2g9pDztwGcB28SITCZFBPKgUGVJOvu-oYUyt--fdKiEuxq45vJRZjPYrvYUXQOe9Q0xmBpwofNUTjVNitQW3A1D16rlN0xeoszsZa";
         CcsClient ccsClient = CcsClient.prepareClient(projectId, password, true);
 
@@ -489,16 +495,19 @@ public class CcsClient {
 
     }
     }
-   /* public static Content createContent(CcsMessage msg ) {
+
+    public static Content createContent(CcsMessage msg, int i) {
         Content c = new Content();
 
         //c.addRegId("APA91bGNKqkUQsqv3-Yjh2f84U8Z9v4z6hQ1XUy2g9pDztwGcB28SITCZFBPKgUGVJOvu-oYUyt--fdKiEuxq45vJRZjPYrvYUXQOe9Q0xmBpwofNUTjVNitQW3A1D16rlN0xeoszsZa");
        // c.addRegId("APA91bGtjDTQ3SAb69VfzW6FaBy6Wq-5KqX9T1qu7LX-DKHu8FNpqzgaoZ8oR4OQ8fRmues4q3rW7FgyrSB19l4RiTiIPyHNHjGXy3VpbbxlmgVZEmrTeO7uKDg0NRNHvPNt9VK9K9Ol");
-        System.out.println("herhehrehr");
-        c.addRegId("APA91bGB-ZbeyCtLP_QRNQE5zu4Y-1LgRlTFiIMh2vDrhtgVwL5vTo5DYiE_YFo4ftOjxk4Nihykt_LSTPL9T_7FX64I7EQoe-l_eQ_4-T36BwAdOgAioktNUE1fwFoaPe6fdzQ1Aayx");
-            String str = msg.getPayload().get("message");
+        //System.out.println("herhehrehr");
+        c.addRegId("APA91bHA71GUuVzzmrSpYh-qsHahybo-o9WPiYd7hLnDoJtUmg5bz4jMkyh9aME8ewyWAZ3hvIWNX7axkwfT23DvPFTpMM7Hf577V6fsXTkUTlFloEEPgIZjSOmWssrLEEXovyBcJHYh");
+        //String str = msg.getPayload().get("message");
+        String str = ls[i];
+        System.out.println(str);
         c.createData(str, "popop");
 
         return c;
-    }*/
+    }
 }
